@@ -1,6 +1,7 @@
 document.getElementById('form').addEventListener('submit', function(event) {
   event.preventDefault();
-
+ 
+  // Obtener los valores del formulario
   const paciente = document.getElementById('paciente').value;
   const consulta = document.getElementById('consulta').value;
   const medico = document.getElementById('medico').value;
@@ -10,20 +11,24 @@ document.getElementById('form').addEventListener('submit', function(event) {
   const just = document.getElementById('just').value;
   const fechaCita = document.getElementById('fechaCita').value;
   const hora = document.getElementById('hora').value;
-
+ 
+  // Construir el objeto con los datos de la solicitud médica
   const serviceRequestData = {
-    paciente,
-    consulta,
-    medico,
-    cedula,
+    paciente: paciente,
+    consulta: consulta,
+    medico: medico,
+    cedula: cedula,
     diagnostico: dx,
     procedimiento: proc,
     justificacion: just,
-    fechaCita,
-    hora
+    fechaCita: fechaCita,
+    hora: hora
   };
-
-  fetch('https://hl7-fhir-ehr-david.onrender.com/service-request/', {
+ 
+  console.log(serviceRequestData);
+ 
+  // Enviar la solicitud al backend (con trailing slash)
+  fetch('https://hl7-patient-write-david.onrender.com/service-request/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(serviceRequestData)
@@ -36,14 +41,10 @@ document.getElementById('form').addEventListener('submit', function(event) {
   })
   .then(data => {
     console.log('Success:', data);
-    if (data._id) {
-      alert('Solicitud médica creada exitosamente. ID: ' + data._id);
-    } else {
-      alert('Solicitud enviada pero no se recibió ID.');
-    }
+    alert('Service Request creado exitosamente! ID: ' + data._id);
   })
   .catch(error => {
     console.error('Error:', error);
-    alert('Hubo un error al enviar la solicitud: ' + error.message);
+    alert('Hubo un error en la solicitud: ' + error.message);
   });
 });
