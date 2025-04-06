@@ -1,7 +1,6 @@
 document.getElementById('form').addEventListener('submit', function(event) {
   event.preventDefault();
 
-  // Obtener los valores del formulario
   const paciente = document.getElementById('paciente').value;
   const consulta = document.getElementById('consulta').value;
   const medico = document.getElementById('medico').value;
@@ -12,38 +11,18 @@ document.getElementById('form').addEventListener('submit', function(event) {
   const fechaCita = document.getElementById('fechaCita').value;
   const hora = document.getElementById('hora').value;
 
-  // Construcción del objeto FHIR ServiceRequest
   const serviceRequestData = {
-    resourceType: "ServiceRequest",
-    status: "active",
-    intent: "order",
-    subject: {
-      identifier: {
-        system: "http://hl7.org/fhir/sid/col-cc",
-        value: cedula
-      },
-      display: paciente
-    },
-    code: {
-      text: proc
-    },
-    reasonCode: [{
-      text: dx
-    }],
-    supportingInfo: [{
-      display: just
-    }],
-    authoredOn: new Date().toISOString(),
-    requester: {
-      display: medico
-    },
-    occurrenceDateTime: `${fechaCita}T${hora}`
+    paciente,
+    consulta,
+    medico,
+    cedula,
+    diagnostico: dx,
+    procedimiento: proc,
+    justificacion: just,
+    fechaCita,
+    hora
   };
 
-  // Mostrar en consola para verificar
-  console.log(serviceRequestData);
-
-  // Enviar la solicitud al backend (usa tu endpoint aquí)
   fetch('https://hl7-fhir-ehr-david.onrender.com/service-request/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -57,7 +36,11 @@ document.getElementById('form').addEventListener('submit', function(event) {
   })
   .then(data => {
     console.log('Success:', data);
-    alert('Solicitud médica creada exitosamente. ID: ' + data._id);
+    if (data._id) {
+      alert('Solicitud médica creada exitosamente. ID: ' + data._id);
+    } else {
+      alert('Solicitud enviada pero no se recibió ID.');
+    }
   })
   .catch(error => {
     console.error('Error:', error);
