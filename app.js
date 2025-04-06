@@ -1,66 +1,66 @@
-document.getElementById('userForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+document.getElementById('form').addEventListener('submit', function(event) {
+  event.preventDefault();
 
-    // Obtener los valores del formulario
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const gender = document.getElementById('sex').value;
-    const birthDate = document.getElementById('dob').value;
-    const identifierSystem = document.getElementById('docType').value;
-    const identifierValue = document.getElementById('docNumber').value;
-    const phone = document.getElementById('mobile').value;
-    const email = document.getElementById('userEmail').value;
-    const address = document.getElementById('street').value;
-    const city = document.getElementById('town').value;
-    const postalCode = document.getElementById('zip').value;
+  // Obtener los valores del formulario
+  const paciente = document.getElementById('paciente').value;
+  const consulta = document.getElementById('consulta').value;
+  const medico = document.getElementById('medico').value;
+  const cedula = document.getElementById('cedula').value;
+  const dx = document.getElementById('dx').value;
+  const proc = document.getElementById('proc').value;
+  const just = document.getElementById('just').value;
+  const fechaCita = document.getElementById('fechaCita').value;
+  const hora = document.getElementById('hora').value;
 
-    // Crear el objeto Patient en formato FHIR
-    const patient = {
-        resourceType: "Patient",
-        name: [{
-            use: "official",
-            given: [firstName],
-            family: lastName
-        }],
-        gender: gender,
-        birthDate: birthDate,
-        identifier: [{
-            system: identifierSystem,
-            value: identifierValue
-        }],
-        telecom: [{
-            system: "phone",
-            value: phone,
-            use: "home"
-        }, {
-            system: "email",
-            value: email,
-            use: "home"
-        }],
-        address: [{
-            use: "home",
-            line: [address],
-            city: city,
-            postalCode: postalCode,
-            country: "Colombia"
-        }]
-    };
+  // Construcción del objeto FHIR ServiceRequest
+  const serviceRequestData = {
+    resourceType: "ServiceRequest",
+    status: "active",
+    intent: "order",
+    subject: {
+      identifier: {
+        system: "http://hl7.org/fhir/sid/col-cc",
+        value: cedula
+      },
+      display: paciente
+    },
+    code: {
+      text: proc
+    },
+    reasonCode: [{
+      text: dx
+    }],
+    supportingInfo: [{
+      display: just
+    }],
+    authoredOn: new Date().toISOString(),
+    requester: {
+      display: medico
+    },
+    occurrenceDateTime: `${fechaCita}T${hora}`
+  };
 
-    // Enviar los datos a un servidor FHIR (puedes cambiar la URL por la tuya)
-    fetch('https://hl7-fhir-ehr.onrender.com/patient', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(patient)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Éxito:', data);
-        alert('Paciente creado exitosamente!');
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        alert('Hubo un error al crear el paciente.');
-    });
+  // Mostrar en consola para verificar
+  console.log(serviceRequestData);
+
+  // Enviar la solicitud al backend (usa tu endpoint aquí)
+  fetch('https://hl7-fhir-ehr-leonardo.onrender.com/service-request/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(serviceRequestData)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error en la solicitud: ' + response.statusText);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Success:', data);
+    alert('Solicitud médica creada exitosamente. ID: ' + data._id);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Hubo un error al enviar la solicitud: ' + error.message);
+  });
 });
