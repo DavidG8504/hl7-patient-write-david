@@ -1,26 +1,26 @@
-document.getElementById('patientForm').addEventListener('submit', function(event) {
+document.getElementById('userForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
     // Obtener los valores del formulario
-    const name = document.getElementById('name').value;
-    const familyName = document.getElementById('familyName').value;
-    const gender = document.getElementById('gender').value;
-    const birthDate = document.getElementById('birthDate').value;
-    const identifierSystem = document.getElementById('identifierSystem').value;
-    const identifierValue = document.getElementById('identifierValue').value;
-    const cellPhone = document.getElementById('cellPhone').value;
-    const email = document.getElementById('email').value;
-    const address = document.getElementById('address').value;
-    const city = document.getElementById('city').value;
-    const postalCode = document.getElementById('postalCode').value;
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const gender = document.getElementById('sex').value;
+    const birthDate = document.getElementById('dob').value;
+    const identifierSystem = document.getElementById('docType').value;
+    const identifierValue = document.getElementById('docNumber').value;
+    const phone = document.getElementById('mobile').value;
+    const email = document.getElementById('userEmail').value;
+    const address = document.getElementById('street').value;
+    const city = document.getElementById('town').value;
+    const postalCode = document.getElementById('zip').value;
 
     // Crear el objeto Patient en formato FHIR
     const patient = {
         resourceType: "Patient",
         name: [{
             use: "official",
-            given: [name],
-            family: familyName
+            given: [firstName],
+            family: lastName
         }],
         gender: gender,
         birthDate: birthDate,
@@ -30,7 +30,7 @@ document.getElementById('patientForm').addEventListener('submit', function(event
         }],
         telecom: [{
             system: "phone",
-            value: cellPhone,
+            value: phone,
             use: "home"
         }, {
             system: "email",
@@ -46,7 +46,7 @@ document.getElementById('patientForm').addEventListener('submit', function(event
         }]
     };
 
-    // Enviar los datos usando Fetch API
+    // Enviar los datos a un servidor FHIR (puedes cambiar la URL por la tuya)
     fetch('https://hl7-fhir-ehr.onrender.com/patient', {
         method: 'POST',
         headers: {
@@ -56,7 +56,7 @@ document.getElementById('patientForm').addEventListener('submit', function(event
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Success:', data);
+        console.log('Éxito:', data);
         alert('Paciente creado exitosamente!');
     })
     .catch((error) => {
