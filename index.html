@@ -11,7 +11,7 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f2f4f8;
+      background-color: #fdf0f7;
       margin: 0;
       padding: 40px 15px;
     }
@@ -22,12 +22,13 @@
       background-color: #fff;
       border-radius: 12px;
       padding: 30px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border-top: 6px solid #e91e63; /* fucsia fuerte */
     }
 
     h2 {
       text-align: center;
-      color: #333;
+      color: #e91e63;
       margin-bottom: 25px;
     }
 
@@ -51,7 +52,7 @@
       font-weight: 600;
       margin-bottom: 6px;
       display: block;
-      color: #555;
+      color: #7b1c47;
     }
 
     input, select {
@@ -60,6 +61,12 @@
       border-radius: 6px;
       font-size: 15px;
       width: 100%;
+      transition: border 0.3s;
+    }
+
+    input:focus, select:focus {
+      border: 1px solid #e91e63;
+      outline: none;
     }
 
     .full-width {
@@ -67,7 +74,7 @@
     }
 
     button {
-      background-color: #0066cc;
+      background-color: #e91e63;
       color: white;
       border: none;
       padding: 12px;
@@ -80,7 +87,7 @@
     }
 
     button:hover {
-      background-color: #004a99;
+      background-color: #c2185b;
     }
 
     @media (max-width: 600px) {
@@ -167,8 +174,7 @@
       const userInfo = Object.fromEntries(formData.entries());
 
       console.log("Datos del formulario:", userInfo);
-
-      alert("Formulario registrado correctamente.");
+      alert("Formulario enviado correctamente.");
     });
   </script>
 </body>
