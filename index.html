@@ -5,26 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Registro de Usuario</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #eef2f5;
-      margin: 0;
-      padding: 0;
+    * {
+      box-sizing: border-box;
     }
 
-    .form-container {
-      max-width: 700px;
-      margin: 30px auto;
-      background: #fff;
-      padding: 25px 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f4f8;
+      margin: 0;
+      padding: 40px 15px;
+    }
+
+    .card {
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
       text-align: center;
-      color: #2c3e50;
-      margin-bottom: 20px;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .form-column {
+      flex: 1 1 45%;
+      display: flex;
+      flex-direction: column;
     }
 
     .form-group {
@@ -33,103 +49,113 @@
 
     label {
       font-weight: 600;
-      display: block;
       margin-bottom: 6px;
+      display: block;
+      color: #555;
     }
 
     input, select {
-      width: 100%;
       padding: 10px;
-      font-size: 15px;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 6px;
+      font-size: 15px;
+      width: 100%;
+    }
+
+    .full-width {
+      flex: 1 1 100%;
     }
 
     button {
-      background-color: #3498db;
-      color: #fff;
+      background-color: #0066cc;
+      color: white;
       border: none;
       padding: 12px;
       font-size: 16px;
-      border-radius: 5px;
-      width: 100%;
+      border-radius: 6px;
       cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      transition: background-color 0.3s;
     }
 
     button:hover {
-      background-color: #2980b9;
+      background-color: #004a99;
+    }
+
+    @media (max-width: 600px) {
+      .form-column {
+        flex: 1 1 100%;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="form-container">
-    <h2>Registro de Usuario</h2>
+  <div class="card">
+    <h2>Ficha de Registro de Paciente</h2>
     <form id="userForm">
-      <div class="form-group">
-        <label for="firstName">Nombre(s):</label>
-        <input type="text" id="firstName" name="firstName" required />
+      <div class="form-column">
+        <div class="form-group">
+          <label for="firstName">Nombre(s):</label>
+          <input type="text" id="firstName" name="firstName" required />
+        </div>
+        <div class="form-group">
+          <label for="lastName">Apellido(s):</label>
+          <input type="text" id="lastName" name="lastName" required />
+        </div>
+        <div class="form-group">
+          <label for="sex">Sexo:</label>
+          <select id="sex" name="sex" required>
+            <option value="male">Masculino</option>
+            <option value="female">Femenino</option>
+            <option value="other">Otro</option>
+            <option value="unknown">No especificado</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="dob">Fecha de Nacimiento:</label>
+          <input type="date" id="dob" name="dob" required />
+        </div>
+        <div class="form-group">
+          <label for="docType">Tipo de Identificación:</label>
+          <select id="docType" name="docType" required>
+            <option value="http://cedula">Cédula</option>
+            <option value="http://pasaporte">Pasaporte</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="docNumber">Número de Documento:</label>
+          <input type="text" id="docNumber" name="docNumber" required />
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="lastName">Apellido(s):</label>
-        <input type="text" id="lastName" name="lastName" required />
+      <div class="form-column">
+        <div class="form-group">
+          <label for="mobile">Celular:</label>
+          <input type="text" id="mobile" name="mobile" required />
+        </div>
+        <div class="form-group">
+          <label for="userEmail">Correo electrónico:</label>
+          <input type="email" id="userEmail" name="userEmail" required />
+        </div>
+        <div class="form-group">
+          <label for="street">Dirección:</label>
+          <input type="text" id="street" name="street" required />
+        </div>
+        <div class="form-group">
+          <label for="town">Ciudad:</label>
+          <input type="text" id="town" name="town" required />
+        </div>
+        <div class="form-group">
+          <label for="zip">Código Postal:</label>
+          <input type="text" id="zip" name="zip" required />
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="sex">Sexo:</label>
-        <select id="sex" name="sex" required>
-          <option value="male">Masculino</option>
-          <option value="female">Femenino</option>
-          <option value="other">Otro</option>
-          <option value="unknown">No especificado</option>
-        </select>
+      <div class="form-group full-width">
+        <button type="submit">Registrar</button>
       </div>
-
-      <div class="form-group">
-        <label for="dob">Fecha de Nacimiento:</label>
-        <input type="date" id="dob" name="dob" required />
-      </div>
-
-      <div class="form-group">
-        <label for="docType">Tipo de Identificación:</label>
-        <select id="docType" name="docType" required>
-          <option value="http://cedula">Cédula</option>
-          <option value="http://pasaporte">Pasaporte</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="docNumber">Número de Documento:</label>
-        <input type="text" id="docNumber" name="docNumber" required />
-      </div>
-
-      <div class="form-group">
-        <label for="mobile">Celular:</label>
-        <input type="text" id="mobile" name="mobile" required />
-      </div>
-
-      <div class="form-group">
-        <label for="userEmail">Correo electrónico:</label>
-        <input type="email" id="userEmail" name="userEmail" required />
-      </div>
-
-      <div class="form-group">
-        <label for="street">Dirección:</label>
-        <input type="text" id="street" name="street" required />
-      </div>
-
-      <div class="form-group">
-        <label for="town">Ciudad:</label>
-        <input type="text" id="town" name="town" required />
-      </div>
-
-      <div class="form-group">
-        <label for="zip">Código Postal:</label>
-        <input type="text" id="zip" name="zip" required />
-      </div>
-
-      <button type="submit">Registrar</button>
     </form>
   </div>
 
@@ -142,7 +168,7 @@
 
       console.log("Datos del formulario:", userInfo);
 
-      alert("Usuario registrado exitosamente.");
+      alert("Formulario registrado correctamente.");
     });
   </script>
 </body>
